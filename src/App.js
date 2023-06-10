@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Item extends React.Component {
+  render() {
+    return <li>
+      {this.props.name},
+      ${this.props.price}
+    </li>
+  }
+}
+
+class App extends React.Component {
+  state = {items: [{id:1,name:'apple',price:0.8},{id:2,name:'banana',price:0.5}]}
+
+  add = () => {
+    let id = this.state.items.length+1;
+    this.setState({
+      items: [
+        ...this.state.items,
+        {id, name: `Item ${id}`, price: id * 0.01}
+      ]
+    });
+  } 
+  render() {
+    return (
+      <div>
+        <h1>Hello React</h1>
+          <ul>
+            {this.state.items.map(i => {
+              return(
+                <Item key={i.id} name={i.name} price={i.price} />
+              )})}
+          </ul>
+          <button onClick={this.add}>Add</button>
+      </div>
+    )
+  }
 }
 
 export default App;
